@@ -1,8 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import './components/styles/User.css';
+import './styles/User.css';
 import axios from 'axios';
-import Navbar from './components/Navbar'
 
 function getCookie(cname) {
     var name = cname + "=";
@@ -68,11 +67,8 @@ function User(props) {
         })
     }
     function logout(){
-        console.log("loggin out...")
         let access_token = getCookie('accesstoken');
         let csrf_token = getCookie('csrftoken');
-        console.log(access_token);
-        console.log(csrf_token);
         let config = {
             headers: {
                 "Authorization": "Token "+access_token,
@@ -119,25 +115,25 @@ function User(props) {
                         </div>
                     </div>
                 </div>
-                <hr/>
-                <div className="mt-5">
+                <div className="mt-2">
                     <div className="profile-content-wrapper">
                         <div id="user-info">
-                            <p><b>email :</b> {user.email} </p>
-                            <p><b>phone :</b> {(user.phone && user.phone!==null)?user.phone:<>not provided</>}</p>
-                            <p><b>address :</b></p>
+                            <p><b>Username :</b> {user.username} </p>
+                            <p><b>E-mail :</b> {user.email} </p>
+                            <p><b>Phone No. :</b> {(user.phone && user.phone!==null)?user.phone:<>not provided</>}</p>
+                            <p><b>Address :</b></p>
                             <div className="ml-3" id="user-address">
-                                <b>area :</b> {(user.address.area && user.address.area!==null)?user.address.area:<>---</>} <br/>
-                                <b>city :</b> {(user.address.city && user.address.city!==null)?user.address.city:<>---</>} <br/>
-                                <b>country :</b> {(user.address.country && user.address.country!==null)?user.address.country:<>---</>} <br/>
-                                <b>landmark :</b> {(user.address.landmark && user.address.landmark!==null)?user.address.landmark:<>---</>} <br/>
-                                <b>pincode :</b> {(user.address.pincode && user.address.pincode!==null)?user.address.pincode:<>---</>} <br/>
-                                <b>state :</b> {(user.address.state && user.address.state!==null)?user.address.state:<>---</>} <br/>
-                                <b>type :</b> {(user.address.type && user.address.type!==null)?user.address.type:<>---</>} <br/><br/>
+                                <b>Area :</b> {(user.address.area && user.address.area!==null)?user.address.area:<>---</>} <br/>
+                                <b>City :</b> {(user.address.city && user.address.city!==null)?user.address.city:<>---</>} <br/>
+                                <b>Country :</b> {(user.address.country && user.address.country!==null)?user.address.country:<>---</>} <br/>
+                                <b>Landmark :</b> {(user.address.landmark && user.address.landmark!==null)?user.address.landmark:<>---</>} <br/>
+                                <b>Pincode :</b> {(user.address.pinCode && user.address.pinCode!==null)?user.address.pinCode:<>---</>} <br/>
+                                <b>State :</b> {(user.address.state && user.address.state!==null)?user.address.state:<>---</>} <br/>
+                                <b>Type :</b> {(user.address.type && user.address.type!==null)?user.address.type:<>---</>} <br/><br/>
                             </div>
                         </div>
                     </div>
-                    <input className="btn btn-danger" type="button" value="Logout" onClick={logout}></input><br/>
+                    <input className="btn btn-danger" id="logout-btn" type="button" value="Logout" onClick={logout}></input><br/>
                 </div>
                 </>
                 :
@@ -149,7 +145,7 @@ function User(props) {
                     <input type="email" ref={email_input} required/><br/><br/>
                     Enter Password;<br/>
                     <input type="password" ref={pass_input} required/><br/><br/>
-                    <input type="submit" value="login"/>
+                    <input className="btn btn-success" type="submit" value="login"/>
                     </form>
                     
                 </div>

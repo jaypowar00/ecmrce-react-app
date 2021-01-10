@@ -1,7 +1,7 @@
 // import logo from './logo.svg';
 import { Route } from 'react-router';
 import React, { Component } from 'react';
-import User from './User';
+import UserPage from './UserPage';
 import Home from './Home';
 import axios from 'axios';
 
@@ -109,7 +109,7 @@ class App extends Component{
       return (
         <React.Fragment>
             <Route exact path="/" component={() => <Home username={this.state.name} loggedIn={this.state.loggedIn}/>}></Route>
-            <Route path="/user" component={() => <User username={this.state.name} setName={this.setName} loggedIn={this.state.loggedIn} user={this.state.user}/>} ></Route>
+            <Route path="/user" component={() => <UserPage username={this.state.name} setName={this.setName} loggedIn={this.state.loggedIn} user={this.state.user}/>} ></Route>
         </React.Fragment>
       );
   }

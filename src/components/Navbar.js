@@ -132,8 +132,8 @@ class Navbar extends Component {
                 document.cookie = "accesstoken="+response.data.access_token;
                 document.cookie = "refreshtoken="+response.data.refresh_token;
                 document.cookie = "csrftoken="+response.data.csrf_token;
-                // window.location.reload();
                 this.handleClose();
+                window.location.reload();
                 
                 // history.push('/');
             }else {
