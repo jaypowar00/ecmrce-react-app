@@ -39,7 +39,7 @@ class Products extends PureComponent {
                 {
                     products.length?
                     products.map(product => {
-                        let name = product.name.substring(0,30)+" ..";
+                        let name = product.name.substring(0,30);
                     return(
                     <div key={product.productId} className="product-item">
                         <div className="product-thumbnail">

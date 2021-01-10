@@ -35,22 +35,11 @@ class App extends Component{
   setName(){
     console.log("in set name function");
     this.checkUserLoginStatus();
-    // this.setState({
-    //   name: username
-    // },() => {console.log(this.state);});
   }
   componentDidUpdate(){
     this.checkUserLoginStatus();
   }
   componentDidMount(){
-    // let username = localStorage.getItem("username");
-    // console.log(username);
-    // if (username) 
-    // this.setState({name: username});
-    // else
-    // this.setState( prevState =>({
-    //   name : prevState.name
-    // }))
     this.checkUserLoginStatus();
   }
   checkUserLoginStatus(){
@@ -82,11 +71,38 @@ class App extends Component{
       }).catch(error => {
         if(this.state.loggedIn)
           this.setState({loggedIn:false})
-        console.log(error);
+        console.log("error in profile request:");
+        console.log(error.response.data);
+        if(error.response.data.detail === "access token expired!"){
+          this.refreshtoken();
+        }
       })
     }else{
       if(this.state.loggedIn)
         this.setState({loggedIn:false})
+    }
+  }
+  refreshtoken(){
+    var refresh_token = getCookie('refreshtoken');
+    if(refresh_token){
+      let config = {  headers: {  "refreshtoken": refresh_token  }  }
+      axios.post('https://ecmrce-suflowapi.herokuapp.com/user/auth/token-refresh',undefined,config)
+      .then(response => {
+        if(response.data.status){
+            alert("tokens refreshed!");
+            document.cookie = "accesstoken="+response.data.access_token;
+            document.cookie = "csrftoken="+response.data.csrf_token;
+            document.location.reload();
+        }else{
+            if(response.data.response)
+            console.log(response.data.response);
+        }
+      })
+      .catch(error => {
+        console.log("error in refresh-token:");
+        console.log(error);
+        console.log(error.response);
+      })
     }
   }
   render(){

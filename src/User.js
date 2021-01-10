@@ -2,6 +2,7 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import './components/styles/User.css';
 import axios from 'axios';
+import Navbar from './components/Navbar'
 
 function getCookie(cname) {
     var name = cname + "=";
@@ -29,7 +30,7 @@ function User(props) {
     }else if(loggedIn==="f"){
         document.title= "loading";
     }else{
-        document.title= "login user"+" - StackUnderFlow";
+        document.title= "login user - StackUnderFlow";
     }
     console.log(loggedIn);
     let email_input = React.createRef();
@@ -49,7 +50,7 @@ function User(props) {
             console.log("___");
             if (response.data.status) {
                 console.log(response.data.user);
-                props.setName(response.data.user.username);
+                // props.setName(response.data.user.username);
                 document.cookie = "accesstoken="+response.data.access_token;
                 document.cookie = "refreshtoken="+response.data.refresh_token;
                 document.cookie = "csrftoken="+response.data.csrf_token;
@@ -67,8 +68,11 @@ function User(props) {
         })
     }
     function logout(){
+        console.log("loggin out...")
         let access_token = getCookie('accesstoken');
         let csrf_token = getCookie('csrftoken');
+        console.log(access_token);
+        console.log(csrf_token);
         let config = {
             headers: {
                 "Authorization": "Token "+access_token,
@@ -94,29 +98,48 @@ function User(props) {
             })
         }
     }
-
     return (
+        <>
+        {/* <Navbar username={username} loggedIn={loggedIn}/> */}
         <div className="user-form">
             {
                 (loggedIn & loggedIn !== 'f')?
-                <div>
-                    logged user: {username}<br/><br/>
-                    <div id="user-info">
-                        <b>email :</b> {user.email} <br/>
-                        <b>phone :</b> {(user.phone && user.phone!==null)?user.phone:<>unknown</>} <br/>
-                        <b>address :</b><br/>
-                        <div id="user-addressdetail">
-                            <b>area :</b> {(user.address.area && user.address.area!==null)?user.address.area:<>unknown</>} <br/>
-                            <b>city :</b> {(user.address.city && user.address.city!==null)?user.address.city:<>unknown</>} <br/>
-                            <b>country :</b> {(user.address.country && user.address.country!==null)?user.address.country:<>unknown</>} <br/>
-                            <b>landmark :</b> {(user.address.landmark && user.address.landmark!==null)?user.address.landmark:<>unknown</>} <br/>
-                            <b>pincode :</b> {(user.address.pincode && user.address.pincode!==null)?user.address.pincode:<>unknown</>} <br/>
-                            <b>state :</b> {(user.address.state && user.address.state!==null)?user.address.state:<>unknown</>} <br/>
-                            <b>type :</b> {(user.address.type && user.address.type!==null)?user.address.type:<>unknown</>} <br/><br/>
+                <>
+                <div className="profile-user-wrapper">
+                    <div className="profile-top-wrapper">
+                        <div className="profile-top-item">
+                            <div id="profile-photo-container">
+                                <div id="profile-photo-text">
+                                    {username.charAt(0)}
+                                </div>
+                            </div>
+                        </div>
+                        <div className="profile-top-item">
+                            <h1>{username}</h1><br/><br/>
                         </div>
                     </div>
-                    <input type="button" value="logout" onClick={logout}></input>
                 </div>
+                <hr/>
+                <div className="mt-5">
+                    <div className="profile-content-wrapper">
+                        <div id="user-info">
+                            <p><b>email :</b> {user.email} </p>
+                            <p><b>phone :</b> {(user.phone && user.phone!==null)?user.phone:<>not provided</>}</p>
+                            <p><b>address :</b></p>
+                            <div className="ml-3" id="user-address">
+                                <b>area :</b> {(user.address.area && user.address.area!==null)?user.address.area:<>---</>} <br/>
+                                <b>city :</b> {(user.address.city && user.address.city!==null)?user.address.city:<>---</>} <br/>
+                                <b>country :</b> {(user.address.country && user.address.country!==null)?user.address.country:<>---</>} <br/>
+                                <b>landmark :</b> {(user.address.landmark && user.address.landmark!==null)?user.address.landmark:<>---</>} <br/>
+                                <b>pincode :</b> {(user.address.pincode && user.address.pincode!==null)?user.address.pincode:<>---</>} <br/>
+                                <b>state :</b> {(user.address.state && user.address.state!==null)?user.address.state:<>---</>} <br/>
+                                <b>type :</b> {(user.address.type && user.address.type!==null)?user.address.type:<>---</>} <br/><br/>
+                            </div>
+                        </div>
+                    </div>
+                    <input className="btn btn-danger" type="button" value="Logout" onClick={logout}></input><br/>
+                </div>
+                </>
                 :
                 (loggedIn === 'f')?<div className="container text-center">loading</div>:
                 <div className="login-user">
@@ -132,6 +155,7 @@ function User(props) {
                 </div>
             }
         </div>
+        </>
     )
 }
 
