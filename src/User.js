@@ -24,6 +24,11 @@ function User(props) {
     let username = props.username;
     let loggedIn = props.loggedIn;
     let user = props.user;
+    if(loggedIn){
+        document.title= user.username+" - StackUnderFlow";
+    }else{
+        document.title= "login user"+" - StackUnderFlow";
+    }
     console.log(loggedIn);
     let email_input = React.createRef();
     let pass_input = React.createRef();
@@ -93,7 +98,6 @@ function User(props) {
             {
                 (loggedIn & loggedIn !== 'f')?
                 <div>
-                    {document.title= user.username+" - StackUnderFlow"}
                     logged user: {username}<br/><br/>
                     <div id="user-info">
                         <b>email :</b> {user.email} <br/>
