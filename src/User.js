@@ -24,8 +24,10 @@ function User(props) {
     let username = props.username;
     let loggedIn = props.loggedIn;
     let user = props.user;
-    if(loggedIn){
+    if(loggedIn===true){
         document.title= user.username+" - StackUnderFlow";
+    }else if(loggedIn==="f"){
+        document.title= "loading";
     }else{
         document.title= "login user"+" - StackUnderFlow";
     }
