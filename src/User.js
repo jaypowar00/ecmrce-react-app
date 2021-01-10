@@ -28,21 +28,6 @@ function User(props) {
     let email_input = React.createRef();
     let pass_input = React.createRef();
 
-    // function changeName(){
-    //     if(email_input.current.value && email_input.current.value!=""){
-    //         console.log("chagning name to "+email_input.current.value);
-    //         localStorage.setItem("username",email_input.current.value);
-    //         props.setName(email_input.current.value);
-    //     }
-    //     // history.push("/");
-    // }
-    // function logout(){
-    //     if(localStorage.getItem("username")){
-    //         localStorage.removeItem("username");
-    //         props.setName("Guest");
-    //         // history.push("/");
-    //     }
-    // }
     function login(e){
         e.preventDefault();
         let email = email_input.current.value;
@@ -108,6 +93,7 @@ function User(props) {
             {
                 (loggedIn & loggedIn !== 'f')?
                 <div>
+                    {document.title= user.username+" - StackUnderFlow"}
                     logged user: {username}<br/><br/>
                     <div id="user-info">
                         <b>email :</b> {user.email} <br/>
