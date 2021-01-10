@@ -47,24 +47,27 @@ class Navbar extends Component {
       this.handleShow = this.handleShow.bind(this);
       this.handleShow2 = this.handleShow2.bind(this);
       this.login = this.login.bind(this);
-      this.n="javascript:;";
+      this.n="";
     }
     handleClose=()=>{
       this.setState({
         show1: false
       });
     }
-    handleShow=()=>{
+    handleShow=(e)=>{
+      e.preventDefault();
       this.setState({
         show1:true
       });
     }
-    handleClose2=()=>{
+    handleClose2=(e)=>{
+      e.preventDefault();
       this.setState({
         show2:false
       });
     }
-    handleShow2=()=>{
+    handleShow2=(e)=>{
+      e.preventDefault();
       this.setState({
         show1:false,
         show2:true
@@ -253,7 +256,7 @@ class Navbar extends Component {
                 <div className="navbar-item">
                     {
                         (this.state.loggedIn && this.state.loggedIn!=='f')?
-                        <a href="/user">{this.state.username}</a>
+                        <a href="user">{this.state.username}</a>
                         :
                         (this.state.loggedIn==='f')?
                         <a href={this.n}>loading</a>
