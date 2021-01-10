@@ -1,0 +1,17 @@
+body {
+  background-color: rgba(223, 240, 255, 0.521);
+  display: flex;
+  flex-direction: column;
+}
+.user-form {
+  margin-top: 50px;
+  justify-content: center;
+  text-align: center;
+  padding: 0 25%;
+}
+#user-info{
+  text-align: justify;
+}
+#user-addressdetail{
+  padding: 0 3%;
+}

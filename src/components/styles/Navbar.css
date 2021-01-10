@@ -1,0 +1,52 @@
+.navbar {
+    margin: 0px;
+    margin-top: -70px;
+    padding: 0px 20px 0px 15px;
+    height: 60px;
+    background-color: #131921;
+    justify-content: space-between;
+    position: fixed;
+    width: 100vw;
+}
+.stackunderflow-logo {
+    position: relative;
+    left: -10px;
+    right: -10%;
+    top: -200%;
+    margin: auto;
+    min-height: 100%;
+    min-width: 100%;
+}
+.navbar-brand{
+    margin: 0px;
+    padding: 0px;
+    height: 40px;
+    position: relative;
+    overflow-y: hidden;
+}
+.navbar-item {
+    /* float: right; */
+    justify-content: end;
+    position: relative;
+    color: aliceblue;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    /* font-style: oblique; */
+    /* font-variant: small-caps; */
+}
+.navbar-item a{
+    font-size: small;
+    text-decoration: none;
+    color: aliceblue;
+}
+.modal-body {
+    text-align: center;
+}
+.modal-body input {
+    text-align: center;
+}
+#myModal1 .modal-content{
+    background-color: rgb(247, 248, 255);
+}
+#myModal2 .modal-content{
+    background-color: rgb(253, 239, 239);
+}
