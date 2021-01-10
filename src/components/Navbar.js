@@ -47,7 +47,7 @@ class Navbar extends Component {
       this.handleShow = this.handleShow.bind(this);
       this.handleShow2 = this.handleShow2.bind(this);
       this.login = this.login.bind(this);
-      this.n="#";
+      this.n="javascript:;";
     }
     handleClose=()=>{
       this.setState({
