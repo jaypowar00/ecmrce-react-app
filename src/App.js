@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import UserPage from './UserPage';
 import Home from './Home';
 import axios from 'axios';
+import './components/styles/App.css'
 
 
 class App extends Component{

@@ -41,17 +41,17 @@ class Products extends PureComponent {
                     {
                         products.length?
                         products.map(product => {
-                            let name = product.name.substring(0,30);
+                            let name = product.name.substring(0,50)+"...";
                         return(
                         <div key={product.productId} className="product-item">
                             <div className="product-thumbnail">
                                 <img className="img-adjust-0" src={product.thumbnail} alt={product.name+"'s thumbnail"}></img><br/>
                             </div>
                             <div className="product-detail">
-                                <b>{name}</b><br/>
-                                price: <b>Rs.{product.price}</b><br/>
-                                <button className="btn btn-success add-ti-cart-btn">add to cart</button>
+                                <div className="product-detail-text"><b>{name}</b><br/></div>
+                                <div className="product-detail-text"><span>price: <b>Rs.{product.price}</b></span></div>
                             </div>
+                            {/* <div className="product-detail-btn"><button className="btn btn-success shadow-none add-to-cart-btn">+</button></div> */}
                         </div>
                         )}
                         ):null
