@@ -14,8 +14,14 @@ class Products extends PureComponent {
              categories: []
         }
     }
-    
+    componentDidUpdate(){
+        console.log("Products.js Updated");
+    }
+    componentWillUnmount(){
+        console.log("Products.js Unmounted");
+    }
     componentDidMount(){
+        console.log("Products.js Mounted");
         axios.get('https://ecmrce-suflowapi.herokuapp.com/products/')
         .then(response => {
             let res = response.data.response
@@ -34,7 +40,8 @@ class Products extends PureComponent {
 
     render() {
         const products = this.state.products;
-        console.log(this.state);
+        // console.log("in products");
+        // console.log(this.state);
         return (
             <>
                 <div className="product-container">

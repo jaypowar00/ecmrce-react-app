@@ -23,8 +23,11 @@ class UserClassComponent extends PureComponent {
         this.login = this.login.bind(this);
         this.logout = this.logout.bind(this);
     }
+    componentDidUpdate(){
+        console.log("User.js Updated");
+    }
     componentDidMount(){
-        console.log("user component mounted");
+        console.log("User.js Mounted");
         if(this.state.loggedIn===true){
             document.title= this.state.user.username+" - StackUnderFlow";
         }else if(this.state.loggedIn==="f"){
@@ -118,7 +121,6 @@ class UserClassComponent extends PureComponent {
                         alert("logout failed : "+response.data.response);
                     else
                         alert("logout failed!");
-                    document.location.reload();
                 }
             }).catch(error => {
                 document.getElementById('user-logout-loading').innerHTML=``;
@@ -126,7 +128,6 @@ class UserClassComponent extends PureComponent {
                     alert("logout failed: "+ error.response.data.details);
                 else
                     alert("logout failed: server error...");
-                document.location.reload();
             })
         }
     }

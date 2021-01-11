@@ -1,13 +1,13 @@
 // import logo from './logo.svg';
 import { Route } from 'react-router';
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import UserPage from './UserPage';
 import Home from './Home';
 import axios from 'axios';
 import './components/styles/App.css'
 
 
-class App extends Component{
+class App extends PureComponent{
   constructor(props) {
     super(props)
     this.state = {
@@ -20,14 +20,21 @@ class App extends Component{
   }
 
   componentDidUpdate(){
+    console.log("App.js Updated");
     this.checkUserLoginStatus();
   }
   componentDidMount(){
+    console.log("App.js Mounted");
     this.checkUserLoginStatus();
   }
+  componentWillUnmount(){
+    console.log("App.js Mounted");
+
+  }
   checkUserLoginStatus(){
+    console.log("checking login");
     var access_token = this.getCookie('accesstoken');
-    console.log(access_token);
+    // console.log(access_token);
     if(access_token){
       axios.get('https://ecmrce-suflowapi.herokuapp.com/user/profile',{
         "headers": {
@@ -36,21 +43,24 @@ class App extends Component{
       }).then(resp => {
         if(resp.data.status){
           if(this.state.loggedIn && this.state.loggedIn!=='f'){
-            if(!this.state.username===resp.data.user.username){
+            if(this.state.name!==resp.data.user.username){
               this.setState({
                 name:resp.data.user.username,
                 loggedIn:true,
                 user:resp.data.user
               })
+            }else{
+              console.log("already logged in");
             }
           }else{
+            console.log("logged in");
             this.setState({name:resp.data.user.username,loggedIn:true,user:resp.data.user})
           }
         }else{
           if(this.state.loggedIn)
           this.setState({loggedIn:false})
         }
-        console.log(resp);
+        // console.log(resp);
       }).catch(error => {
         if(this.state.loggedIn)
           this.setState({loggedIn:false})
@@ -73,17 +83,24 @@ class App extends Component{
       .then(response => {
         if(response.data.status){
             document.cookie = "accesstoken="+response.data.access_token;
-            document.cookie = "csrftoken="+response.data.csrf_token;
             document.location.reload();
-        }else{
+          }else{
             if(response.data.response)
-            console.log(response.data.response);
-        }
-      })
-      .catch(error => {
-        console.log("error in refresh-token:");
-        console.log(error);
-        console.log(error.response);
+            console.log(response);
+            document.cookie = "accesstoken=; expires = Thu, 01 Jan 1970 00:00:00 GMT";
+            document.cookie = "refreshtoken=; expires = Thu, 01 Jan 1970 00:00:00 GMT";
+            document.cookie = "csrftoken=; expires = Thu, 01 Jan 1970 00:00:00 GMT";
+            document.location.reload();
+          }
+        })
+        .catch(error => {
+          console.log("error in refresh-token:");
+          console.log(error);
+          console.log(error.response);
+          document.cookie = "accesstoken=; expires = Thu, 01 Jan 1970 00:00:00 GMT";
+          document.cookie = "refreshtoken=; expires = Thu, 01 Jan 1970 00:00:00 GMT";
+          document.cookie = "csrftoken=; expires = Thu, 01 Jan 1970 00:00:00 GMT";
+          document.location.reload();
       })
     }
   }

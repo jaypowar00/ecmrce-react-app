@@ -5,22 +5,6 @@ import axios from 'axios'
 import './styles/spinkit.css'
 
 
-function getCookie(cname) {
-    var name = cname + "=";
-    var decodedCookie = decodeURIComponent(document.cookie);
-    var ca = decodedCookie.split(';');
-    for(var i = 0; i <ca.length; i++) {
-      var c = ca[i];
-      while (c.charAt(0) === ' ') {
-        c = c.substring(1);
-      }
-      if (c.indexOf(name) === 0) {
-        return c.substring(name.length, c.length);
-      }
-    }
-    return "";
-}
-
 class Navbar extends Component {
   constructor(props) {
     super(props)
@@ -31,16 +15,10 @@ class Navbar extends Component {
       this.n="";
     }
     componentDidMount(){
-        this.checkUserLoginStatus();
-        console.log(this.state);
-    }
-    componentDidUpdate(){
-        this.checkUserLoginStatus();
-        console.log(this.state);
+      this.checkUserLoginStatus();
     }
     checkUserLoginStatus(){
-        var access_token = getCookie('accesstoken');
-        console.log(access_token);
+        var access_token = this.props.getCookie('accesstoken');
         if(access_token){
           axios.get('https://ecmrce-suflowapi.herokuapp.com/user/profile',{
             "headers": {
@@ -59,7 +37,6 @@ class Navbar extends Component {
               if(this.state.loggedIn)
               this.setState({loggedIn:false})
             }
-            console.log(resp);
           }).catch(error => {
             if(this.state.loggedIn)
               this.setState({loggedIn:false})

@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import Navbar from './components/Navbar'
 import Products from './components/Products'
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
 import axios from 'axios'
-export class Home extends Component {
+export class Home extends PureComponent {
     constructor(props) {
         super(props)
         this.state = {
@@ -17,6 +17,15 @@ export class Home extends Component {
         this.handleShow = this.handleShow.bind(this);
         this.handleShow2 = this.handleShow2.bind(this);
         this.login = this.login.bind(this);
+    }
+    componentDidMount(){
+        console.log("Home.js Mounted");
+    }
+    componentDidUpdate(){
+        console.log("Home.js Updateed");
+    }
+    componentWillUnmount(){
+        console.log("Home.js Unmounted");
     }
     handleClose=()=>{
         this.setState({
@@ -58,10 +67,10 @@ export class Home extends Component {
         }
         axios.post("https://ecmrce-suflowapi.herokuapp.com/user/auth/login",data,{withCredentials:true})
         .then((response)=>{
-            console.log(response);
-            console.log("___");
+            // console.log(response);
+            // console.log("___");
             if (response.data.status) {
-                console.log(response.data.user);
+                // console.log(response.data.user);
                 document.cookie = "accesstoken="+response.data.access_token;
                 document.cookie = "refreshtoken="+response.data.refresh_token;
                 document.cookie = "csrftoken="+response.data.csrf_token;
