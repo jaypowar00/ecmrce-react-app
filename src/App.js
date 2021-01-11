@@ -5,21 +5,6 @@ import UserPage from './UserPage';
 import Home from './Home';
 import axios from 'axios';
 
-function getCookie(cname) {
-  var name = cname + "=";
-  var decodedCookie = decodeURIComponent(document.cookie);
-  var ca = decodedCookie.split(';');
-  for(var i = 0; i <ca.length; i++) {
-    var c = ca[i];
-    while (c.charAt(0) === ' ') {
-      c = c.substring(1);
-    }
-    if (c.indexOf(name) === 0) {
-      return c.substring(name.length, c.length);
-    }
-  }
-  return "";
-}
 
 class App extends Component{
   constructor(props) {
@@ -29,13 +14,10 @@ class App extends Component{
       loggedIn: "f",
       user: null
     }
-    this.setName = this.setName.bind(this);
+    this.checkUserLoginStatus = this.checkUserLoginStatus.bind(this);
+    this.getCookie = this.getCookie.bind(this);
   }
 
-  setName(){
-    console.log("in set name function");
-    this.checkUserLoginStatus();
-  }
   componentDidUpdate(){
     this.checkUserLoginStatus();
   }
@@ -43,7 +25,7 @@ class App extends Component{
     this.checkUserLoginStatus();
   }
   checkUserLoginStatus(){
-    var access_token = getCookie('accesstoken');
+    var access_token = this.getCookie('accesstoken');
     console.log(access_token);
     if(access_token){
       axios.get('https://ecmrce-suflowapi.herokuapp.com/user/profile',{
@@ -83,7 +65,7 @@ class App extends Component{
     }
   }
   refreshtoken(){
-    var refresh_token = getCookie('refreshtoken');
+    var refresh_token = this.getCookie('refreshtoken');
     if(refresh_token){
       let config = {  headers: {  "refreshtoken": refresh_token  }  }
       axios.post('https://ecmrce-suflowapi.herokuapp.com/user/auth/token-refresh',undefined,config)
@@ -104,11 +86,26 @@ class App extends Component{
       })
     }
   }
+  getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) === ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) === 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+  }
   render(){
       return (
         <React.Fragment>
-            <Route exact path="/" component={() => <Home username={this.state.name} loggedIn={this.state.loggedIn}/>}></Route>
-            <Route path="/user" component={() => <UserPage username={this.state.name} setName={this.setName} loggedIn={this.state.loggedIn} user={this.state.user}/>} ></Route>
+            <Route exact path="/" component={() => <Home username={this.state.name} loggedIn={this.state.loggedIn} getCookie={this.getCookie}/>}></Route>
+            <Route path="/user" component={() => <UserPage username={this.state.name} checkLoginStatus={this.checkUserLoginStatus} loggedIn={this.state.loggedIn} user={this.state.user} getCookie={this.getCookie}/>} ></Route>
         </React.Fragment>
       );
   }
