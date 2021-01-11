@@ -67,6 +67,17 @@ function User(props) {
         })
     }
     function logout(){
+        document.getElementById('user-logout-loading').innerHTML=`
+        <div style="margin-bottom:-10px;padding-top:15px;">
+            <div class="sk-wave sk-center">
+                <div class="sk-wave-rect"></div>
+                <div class="sk-wave-rect"></div>
+                <div class="sk-wave-rect"></div>
+                <div class="sk-wave-rect"></div>
+                <div class="sk-wave-rect"></div>
+            </div>
+        </div>
+        `;
         let access_token = getCookie('accesstoken');
         let csrf_token = getCookie('csrftoken');
         let config = {
@@ -84,13 +95,21 @@ function User(props) {
                     document.cookie = "accesstoken=; expires = Thu, 01 Jan 1970 00:00:00 GMT";
                     document.cookie = "refreshtoken=; expires = Thu, 01 Jan 1970 00:00:00 GMT";
                     document.cookie = "csrftoken=; expires = Thu, 01 Jan 1970 00:00:00 GMT";
+                    document.getElementById('user-logout-loading').innerHTML=``;
                     history.push('/');
                 }else{
+                    document.getElementById('user-logout-loading').innerHTML=``;
                     if(response.data.response)
-                        alert("logout failed : "+response.data.response);
+                    alert("logout failed : "+response.data.response);
                     else
-                        alert("logout failed!");
+                    alert("logout failed!");
                 }
+            }).catch(error => {
+                document.getElementById('user-logout-loading').innerHTML=``;
+                if(error.response && error.response.data)
+                    alert("logout failed: "+ error.response.data.details);
+                else
+                    alert("logout failed: server error...");
             })
         }
     }
@@ -133,11 +152,22 @@ function User(props) {
                             </div>
                         </div>
                     </div>
-                    <input className="btn btn-danger" id="logout-btn" type="button" value="Logout" onClick={logout}></input><br/>
+                    <div id="user-logout-loading"></div>
+                    <input className="mt-4 btn btn-danger" id="logout-btn" type="button" value="Logout" onClick={logout}></input><br/>
                 </div>
                 </>
                 :
-                (loggedIn === 'f')?<div className="container text-center">loading</div>:
+                (loggedIn === 'f')?<div className="container text-center">
+                <div style={{marginTop: "34px"}}>
+                    <div className="mt-5 sk-wave sk-center">
+                        <div className="sk-wave-rect"></div>
+                        <div className="sk-wave-rect"></div>
+                        <div className="sk-wave-rect"></div>
+                        <div className="sk-wave-rect"></div>
+                        <div className="sk-wave-rect"></div>
+                    </div>
+                </div>
+                </div>:
                 <div className="login-user">
                     <form onSubmit={login}>
                     in Guest Mode<br/><br/>

@@ -35,8 +35,11 @@
   padding-bottom: 20px;
   border-bottom: 1px solid rgba(201, 201, 201, 0.459);
 }
+.profile-content-wrapper {
+  margin-bottom: -34px;
+
+}
 .profile-content-wrapper p {
-  /* padding-bottom: 0px; */
   margin-bottom: 0px;
 }
 #profile-photo-container {

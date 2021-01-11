@@ -7,6 +7,7 @@ import axios from 'axios'
 // import $ from 'jquery'
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
+import './styles/spinkit.css'
 // import ModalDialog from 'react-bootstrap/ModalDialog'
 // import ModalHeader from 'react-bootstrap/ModalHeader'
 // import ModalTitle from 'react-bootstrap/ModalTitle'
@@ -60,14 +61,12 @@ class Navbar extends Component {
         show1:true
       });
     }
-    handleClose2=(e)=>{
-      e.preventDefault();
+    handleClose2=()=>{
       this.setState({
         show2:false
       });
     }
-    handleShow2=(e)=>{
-      e.preventDefault();
+    handleShow2=()=>{
       this.setState({
         show1:false,
         show2:true
@@ -115,6 +114,14 @@ class Navbar extends Component {
       }
 
       login(e){
+        document.getElementById('login-request-loading').innerHTML=`
+        <div class="mt-3 mb-n4 sk-wave sk-center">
+            <div class="sk-wave-rect"></div>
+            <div class="sk-wave-rect"></div>
+            <div class="sk-wave-rect"></div>
+            <div class="sk-wave-rect"></div>
+            <div class="sk-wave-rect"></div>
+        </div><br>`;
         e.preventDefault();
         let email = document.getElementById("login-email-input").value;
         let password = document.getElementById("login-password-input").value;
@@ -128,65 +135,31 @@ class Navbar extends Component {
             console.log("___");
             if (response.data.status) {
                 console.log(response.data.user);
-                // props.setName(response.data.user.username);
                 document.cookie = "accesstoken="+response.data.access_token;
                 document.cookie = "refreshtoken="+response.data.refresh_token;
                 document.cookie = "csrftoken="+response.data.csrf_token;
+                document.getElementById('login-request-loading').innerHTML=``;
                 this.handleClose();
                 window.location.reload();
-                
-                // history.push('/');
-            }else {
-                if(response.data.response){
+              }else {
+                if(response.data.response)
                   this.errorMsg = response.data.response;
-                  console.log("login failed : "+response.data.response);
-                  // $('#myModal2').modal('show');
-                  this.handleClose();
-                  this.handleShow2();
-                  // alert("login failed : "+response.data.response);
-                    // $('#myModal2').modal({focus:true});
-                  }
-                  else{
-                    this.errorMsg = "";
-                    console.log("login failed");
-                    this.handleClose();
-                    this.handleShow2();
-                    // alert("login failed");
-                }
-            }
+                else
+                  this.errorMsg = "";
+                document.getElementById('login-request-loading').innerHTML=``;
+                this.handleShow2();
+              }
+            }).catch(error => {
+              if(error.response.data)
+                this.errorMsg = error.response.data.detials;
+              else
+                this.errorMsg = "";
+              document.getElementById('login-request-loading').innerHTML=``;
+              this.handleShow2();
         })
     }
             
     render() {
-      // <Modal show={this.state.show} onHide={()=>this.handleClose()}>
-      //         <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
-      //             <div className="modal-content">
-      //                 <div className="modal-header">
-      //                     <h5 className="modal-title" id="myModal1Label">User Login</h5>
-      //                     <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={()=>this.handleClose()}>
-      //                         <span aria-hidden="true">&times;</span>
-      //                     </button>
-      //                 </div>
-      //                 <div className="modal-body">
-      //                   <form id="modalLoginForm" onSubmit={this.login}>
-      //                     <label for="login-email">Enter Email:</label>
-      //                     <br/>
-      //                     <input type="email" name="loginEmail" ref={this.emailRef} id="login-email" placeholder="email@domain.com" required/>
-      //                     <br/>
-      //                     <label for="login-password" className="mt-3">Enter password:</label>
-      //                     <br/>
-      //                     <input type="password" name="loginPassword" ref={this.passwordRef} id="login-password" placeholder="password" required/>
-      //                     <br/>
-      //                   </form>
-      //                 </div>
-      //                 <div className="modal-footer">
-      //                     <button type="submit" form="modalLoginForm" className="btn btn-success">Login</button>
-      //                     <button type="button" className="btn btn-secondary" onClick={()=>this.handleClose()}>Cancle</button>
-      //                     {/* <button type="button" className="btn btn-secondary" data-dismiss="modal">Cancle</button> */}
-      //                 </div>
-      //             </div>
-      //         </div>
-      //     </Modal>
         return (
           <div>
             <Modal id="myModal1" show={this.state.show1} onHide={this.handleClose} centered>
@@ -204,6 +177,7 @@ class Navbar extends Component {
                   <input type="password" name="loginPassword" id="login-password-input" placeholder="password" required/>
                   <br/>
                 </form>
+                <div id="login-request-loading"></div>
               </Modal.Body>
               <Modal.Footer>
                 <button type="submit" form="modalLoginForm" className="btn btn-success">Login</button>
@@ -218,7 +192,7 @@ class Navbar extends Component {
               <Modal.Body>
                 {
                   (this.errorMsg && this.errorMsg!=="")?
-                  <>Login Failed due to,<br/>{this.errorMsg}</>
+                  <>Login Failed due to,<br/><b>{this.errorMsg}</b></>
                   :
                   <>Login Failed!</>
                 }

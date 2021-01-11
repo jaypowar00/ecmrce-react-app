@@ -89,7 +89,6 @@ class App extends Component{
       axios.post('https://ecmrce-suflowapi.herokuapp.com/user/auth/token-refresh',undefined,config)
       .then(response => {
         if(response.data.status){
-            alert("tokens refreshed!");
             document.cookie = "accesstoken="+response.data.access_token;
             document.cookie = "csrftoken="+response.data.csrf_token;
             document.location.reload();

@@ -51,3 +51,9 @@
 #myModal2 .modal-content{
     background-color: rgb(253, 239, 239);
 }
+#myModal1 {
+    z-index: 11;
+}
+#myModal2 {
+    z-index: 12;
+}
